@@ -69,6 +69,11 @@ createConnection().then(db => {
                 await productRepository.deleteOne({admin_id: admin_id});
                 console.log("Product deleted"); 
             });
+
+            app.get('/api/products/', async (req: Request, res: Response) => {
+                const products = await productRepository.find();
+                return res.send(products);
+            })
             
             console.log("Listening on port: 8001"); 
             app.listen(8001);
