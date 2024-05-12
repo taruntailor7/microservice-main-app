@@ -32,6 +32,7 @@ createConnection().then(db => {
             
             app.use(express.json());
 
+            // Event consuming for product created.
             channel.consume("product_created", async (msg) => {
                 const eventProduct = JSON.parse(msg.content.toString());
                 
@@ -44,6 +45,30 @@ createConnection().then(db => {
                 await productRepository.save(product);
                 console.log("Product created"); 
             }, {noAck: true});
+
+            // Event consuming for product updated.
+            channel.consume("product_updated", async (msg) => {
+                const eventProduct = JSON.parse(msg.content.toString());
+                
+                const product = await productRepository.findOneBy({admin_id: parseInt(eventProduct.id)});
+
+                productRepository.merge(product, {
+                    title: eventProduct.title,
+                    image: eventProduct.image,
+                    likes: eventProduct.likes
+                })
+
+                await productRepository.save(product);
+                console.log("Product updated"); 
+            }, {noAck: true});
+
+            // Event consuming for product deleted.
+            channel.consume("product_deleted", async (msg) => {
+                const admin_id = parseInt(msg.content.toString());
+                
+                await productRepository.deleteOne({admin_id: admin_id});
+                console.log("Product deleted"); 
+            });
             
             console.log("Listening on port: 8001"); 
             app.listen(8001);
