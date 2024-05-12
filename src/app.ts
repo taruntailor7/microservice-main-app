@@ -36,7 +36,7 @@ createConnection().then(db => {
                 const eventProduct = JSON.parse(msg.content.toString());
                 
                 const product = new Product();
-                product.admin_id = eventProduct.id;
+                product.admin_id = parseInt(eventProduct.id);
                 product.title = eventProduct.title;
                 product.image = eventProduct.image;
                 product.likes = eventProduct.likes;
