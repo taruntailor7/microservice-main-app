@@ -91,6 +91,7 @@ createConnection().then(db => {
                 console.log("Closing connection");
                 connection.close(); 
             });
+            
         });
     });
 });
