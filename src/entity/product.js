@@ -16,7 +16,7 @@ var Product = /** @class */ (function () {
     }
     __decorate([
         (0, typeorm_1.ObjectIdColumn)(),
-        __metadata("design:type", Number)
+        __metadata("design:type", String)
     ], Product.prototype, "id", void 0);
     __decorate([
         (0, typeorm_1.Column)({ unique: true }),

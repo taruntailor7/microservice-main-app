@@ -49,7 +49,7 @@ createConnection().then(db => {
 
             // Event consuming for product updated.
             channel.consume("product_updated", async (msg) => {
-                const eventProduct = JSON.parse(msg.content.toString());
+                const eventProduct: Product = JSON.parse(msg.content.toString());
                 
                 const product = await productRepository.findOneBy({admin_id: parseInt(eventProduct.id)});
 
